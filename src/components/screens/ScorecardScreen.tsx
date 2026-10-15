@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import {
   StartupData,
@@ -25,6 +25,7 @@ interface Props {
   pitchResults: PitchRoundResult[];
   acceptedDeal: InvestorOffer | null;
   onPlayAgain: () => void;
+  onViewHallOfFame?: () => void;
 }
 
 export const ScorecardScreen: React.FC<Props> = ({
@@ -34,11 +35,88 @@ export const ScorecardScreen: React.FC<Props> = ({
   pitchResults,
   acceptedDeal,
   onPlayAgain,
+  onViewHallOfFame,
 }) => {
   // Determine final ending type
   const isDeal = !!acceptedDeal;
   const isDandaEnding = dandaCount >= 2 || (score < 40 && !isDeal);
   const isNoDeal = !isDeal && !isDandaEnding;
+
+  // Persistence State
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [savedGameId, setSavedGameId] = useState<string | null>(null);
+  const [saveErrorMessage, setSaveErrorMessage] = useState<string | null>(null);
+  const hasSavedRef = React.useRef(false);
+
+  const saveScorecard = async () => {
+    setSaveStatus('saving');
+    setSaveErrorMessage(null);
+
+    try {
+      const calculatedValuation = isDeal
+        ? (acceptedDeal?.postMoneyValuation || 0)
+        : Math.round(((startup.askAmount || 1000000) / Math.max(1, startup.askEquity || 5)) * 100);
+
+      const payload = {
+        playerName: startup.name ? `${startup.name} Founder` : 'Founder',
+        startupName: startup.name || 'Untitled Startup',
+        tagline: startup.tagline || '',
+        industry: startup.industry || 'General',
+        targetCustomer: startup.targetCustomer || '',
+        monthlyRevenue: startup.monthlyRevenue || 0,
+        monthlyExpenses: startup.monthlyExpenses || 0,
+        investmentAsk: startup.askAmount || 1000000,
+        equityOffered: startup.askEquity || 5,
+        finalVerdict: isDeal ? 'deal' : isDandaEnding ? 'danda' : 'no_deal',
+        acceptedDealInvestor: acceptedDeal?.investorName,
+        acceptedDealAmount: acceptedDeal?.amount,
+        acceptedDealEquity: acceptedDeal?.equity,
+        acceptedDealValuation: acceptedDeal?.postMoneyValuation,
+        valuation: calculatedValuation,
+        score,
+        dandaCount,
+        rounds: pitchResults.map((r, idx) => ({
+          roundNumber: idx + 1,
+          questionId: r.questionId,
+          askerId: r.askerId,
+          chosenAnswerId: r.chosenAnswerId,
+          chosenAnswer: r.customText,
+          investorReaction: r.quality,
+          pointsAwarded: r.pointsAwarded,
+          dandaTriggered: r.dandaTriggered,
+          contradictionTriggered: r.contradictionTriggered,
+          slapTriggered: r.slapTriggered,
+          feedback: r.feedback,
+        })),
+      };
+
+      const res = await fetch('/api/games', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        throw new Error(errJson.details?.[0]?.message || errJson.error || `HTTP error ${res.status}`);
+      }
+
+      const data = await res.json();
+      setSaveStatus('saved');
+      setSavedGameId(data.gameId);
+    } catch (err: any) {
+      console.warn('[Scorecard] Non-blocking save error:', err);
+      setSaveStatus('error');
+      setSaveErrorMessage(err?.message || 'Failed to sync with server');
+    }
+  };
+
+  useEffect(() => {
+    if (!hasSavedRef.current) {
+      hasSavedRef.current = true;
+      saveScorecard();
+    }
+  }, []);
 
   useEffect(() => {
     if (isDeal) {
@@ -127,6 +205,34 @@ export const ScorecardScreen: React.FC<Props> = ({
                 The sharks respected your hustle. Maintain your equity and scale independently!
               </p>
             </div>
+          </div>
+        )}
+      </div>
+
+      {/* Cloud Sync Status */}
+      <div className="flex justify-center mb-6">
+        {saveStatus === 'saving' && (
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-700 text-xs text-slate-300">
+            <RotateCcw size={13} className="animate-spin text-amber-400" />
+            <span>Syncing scorecard to Tank Registry...</span>
+          </div>
+        )}
+        {saveStatus === 'saved' && (
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-xs text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+            <CheckCircle2 size={14} className="text-emerald-400" />
+            <span>Scorecard logged in Tank Records {savedGameId ? `(#${savedGameId.slice(0, 8)})` : ''}</span>
+          </div>
+        )}
+        {saveStatus === 'error' && (
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-red-950/50 border border-red-700/60 text-xs text-red-300">
+            <AlertCircle size={14} className="text-red-400" />
+            <span>Offline — {saveErrorMessage || 'Could not reach server'}</span>
+            <button
+              onClick={saveScorecard}
+              className="ml-2 underline font-bold hover:text-white cursor-pointer"
+            >
+              Retry
+            </button>
           </div>
         )}
       </div>
@@ -225,15 +331,29 @@ export const ScorecardScreen: React.FC<Props> = ({
         </ul>
       </div>
 
-      {/* Play Again CTA */}
-      <div className="flex justify-center">
+      {/* Play Again & Records CTAs */}
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+        {onViewHallOfFame && (
+          <button
+            type="button"
+            onClick={() => {
+              sound.playClick();
+              onViewHallOfFame();
+            }}
+            className="w-full sm:w-auto px-6 py-4 bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-200 font-bold text-sm sm:text-base rounded-2xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center space-x-2 cursor-pointer shadow-lg"
+          >
+            <Trophy size={18} className="text-amber-400" />
+            <span>Hall of Fame</span>
+          </button>
+        )}
+
         <button
           type="button"
           onClick={() => {
             sound.playClick();
             onPlayAgain();
           }}
-          className="px-8 py-4 bg-gradient-to-r from-amber-500 to-red-500 hover:from-amber-400 hover:to-red-400 text-slate-950 font-black text-base sm:text-lg rounded-2xl shadow-[0_0_30px_rgba(245,158,11,0.4)] transition-transform hover:scale-105 active:scale-95 flex items-center space-x-2 cursor-pointer uppercase tracking-wider"
+          className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-amber-500 to-red-500 hover:from-amber-400 hover:to-red-400 text-slate-950 font-black text-base sm:text-lg rounded-2xl shadow-[0_0_30px_rgba(245,158,11,0.4)] transition-transform hover:scale-105 active:scale-95 flex items-center justify-center space-x-2 cursor-pointer uppercase tracking-wider"
         >
           <RotateCcw size={20} />
           <span>Pitch Another Startup</span>

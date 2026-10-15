@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Info, HelpCircle, Sliders } from 'lucide-react';
+import { Volume2, VolumeX, Info, HelpCircle, Sliders, Trophy } from 'lucide-react';
 import { sound } from '../../utils/audio';
 
 interface Props {
   onHowToPlayClick: () => void;
   onDisclaimerClick: () => void;
   onAudioSettingsClick: () => void;
+  onHallOfFameClick?: () => void;
   onResetGame?: () => void;
 }
 
@@ -13,6 +14,7 @@ export const Header: React.FC<Props> = ({
   onHowToPlayClick,
   onDisclaimerClick,
   onAudioSettingsClick,
+  onHallOfFameClick,
   onResetGame,
 }) => {
   const [audioSettings, setAudioSettings] = useState(sound.getSettings());
@@ -55,6 +57,21 @@ export const Header: React.FC<Props> = ({
 
         {/* Action Controls */}
         <div className="flex items-center space-x-2 sm:space-x-3">
+          {/* Hall of Fame / Past Pitches */}
+          {onHallOfFameClick && (
+            <button
+              onClick={() => {
+                sound.playClick();
+                onHallOfFameClick();
+              }}
+              className="flex items-center space-x-1 px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-amber-400 text-xs text-slate-300 transition-colors cursor-pointer"
+              title="Hall of Fame & Past Pitches"
+            >
+              <Trophy size={14} className="text-amber-400" />
+              <span className="hidden sm:inline">Records</span>
+            </button>
+          )}
+
           {/* Audio Settings (Music, Voice, SFX channels) */}
           <button
             onClick={() => {

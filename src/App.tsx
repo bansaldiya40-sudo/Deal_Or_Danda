@@ -6,6 +6,7 @@ import { Header } from './components/common/Header';
 import { DisclaimerModal } from './components/common/DisclaimerModal';
 import { HowToPlayModal } from './components/common/HowToPlayModal';
 import { AudioSettingsModal } from './components/common/AudioSettingsModal';
+import { HallOfFameModal } from './components/common/HallOfFameModal';
 import { StartScreen } from './components/screens/StartScreen';
 import { StartupFormScreen } from './components/screens/StartupFormScreen';
 import { PitchScreen } from './components/screens/PitchScreen';
@@ -31,6 +32,7 @@ export function App() {
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
   const [isHowToPlayOpen, setIsHowToPlayOpen] = useState(false);
   const [isAudioSettingsOpen, setIsAudioSettingsOpen] = useState(false);
+  const [isHallOfFameOpen, setIsHallOfFameOpen] = useState(false);
 
   const handleStartGame = () => {
     setCurrentScreen('create');
@@ -102,6 +104,7 @@ export function App() {
         onHowToPlayClick={() => setIsHowToPlayOpen(true)}
         onDisclaimerClick={() => setIsDisclaimerOpen(true)}
         onAudioSettingsClick={() => setIsAudioSettingsOpen(true)}
+        onHallOfFameClick={() => setIsHallOfFameOpen(true)}
         onResetGame={handleResetToStart}
       />
 
@@ -161,6 +164,7 @@ export function App() {
             pitchResults={pitchResults}
             acceptedDeal={acceptedDeal}
             onPlayAgain={handlePlayAgain}
+            onViewHallOfFame={() => setIsHallOfFameOpen(true)}
           />
         )}
       </main>
@@ -177,6 +181,10 @@ export function App() {
       <AudioSettingsModal
         isOpen={isAudioSettingsOpen}
         onClose={() => setIsAudioSettingsOpen(false)}
+      />
+      <HallOfFameModal
+        isOpen={isHallOfFameOpen}
+        onClose={() => setIsHallOfFameOpen(false)}
       />
     </div>
   );
