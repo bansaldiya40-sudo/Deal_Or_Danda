@@ -16,7 +16,12 @@ dist-ssr
 !.env.example
 *.db
 *.db-journal
+*.db-wal
+*.db-shm
 *.sqlite
+backups/
+.bridge-secret
+scripts/bin/
 
 # Editor directories and files
 .vscode/*

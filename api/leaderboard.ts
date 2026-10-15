@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getLeaderboard } from '../lib/gameService.js';
+import { forwardToBridge } from '../lib/bridgeProxy.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS Headers
@@ -15,6 +16,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
     return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
+  }
+
+  // Check if request should be proxied to local bridge tunnel
+  const queryStr = req.url && req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+  const proxy = await forwardToBridge(req, `/api/leaderboard${queryStr}`);
+  if (proxy.handled) {
+    return res.status(proxy.status || 200).json(proxy.data);
   }
 
   try {

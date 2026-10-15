@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getGameById } from '../../lib/gameService.js';
+import { forwardToBridge } from '../../lib/bridgeProxy.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS Headers
@@ -17,11 +18,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
   }
 
-  try {
-    const { id } = req.query;
-    if (!id || typeof id !== 'string') {
-      return res.status(400).json({ error: 'Game ID parameter is required' });
-    }
+  const { id } = req.query;
+  if (!id || typeof id !== 'string') {
+    return res.status(400).json({ error: 'Game ID parameter is required' });
+  }
+
+  // Check if request should be proxied to local bridge tunnel
+  const proxy = await forwardToBridge(req, `/api/games/${id}`);
+  if (proxy.handled) {
+    return res.status(proxy.status || 200).json(proxy.data);
+  }
 
     const gameData = await getGameById(id);
 

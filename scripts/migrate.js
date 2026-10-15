@@ -23,9 +23,12 @@ async function runMigrations() {
   const databaseUrl = process.env.TURSO_DATABASE_URL;
   const authToken = process.env.TURSO_AUTH_TOKEN;
 
+  const localDbPath = path.resolve(rootDir, 'deal_or_danda.db');
+  const normalizedPath = localDbPath.replace(/\\/g, '/');
+
   const url = databaseUrl && databaseUrl.trim() !== ''
     ? databaseUrl.trim()
-    : 'file:deal_or_danda.db';
+    : `file:${normalizedPath}`;
 
   console.log(`[Migration] Connecting to database: ${url.startsWith('file:') ? url : 'Turso Cloud (' + url + ')'}`);
 

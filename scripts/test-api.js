@@ -153,7 +153,7 @@ async function runTests() {
 
     // 6. Leaderboard Test (GET /api/leaderboard)
     console.log('\n[Test 6] Retrieve Leaderboard (GET /api/leaderboard)');
-    const leaderboard = await getLeaderboard(5);
+    const leaderboard = await getLeaderboard(20);
     assert(Array.isArray(leaderboard.topDeals), 'Leaderboard has topDeals array');
     assert(Array.isArray(leaderboard.topScores), 'Leaderboard has topScores array');
     assert(Array.isArray(leaderboard.hallOfShame), 'Leaderboard has hallOfShame array');

@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { saveGame, getRecentGames, validateGameInput } from '../../lib/gameService.js';
+import { forwardToBridge } from '../../lib/bridgeProxy.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS Headers
@@ -10,6 +11,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
+  }
+
+  // Check if request should be proxied to local bridge tunnel
+  const queryStr = req.url && req.url.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
+  const proxy = await forwardToBridge(req, `/api/games${queryStr}`);
+  if (proxy.handled) {
+    return res.status(proxy.status || 200).json(proxy.data);
   }
 
   try {
