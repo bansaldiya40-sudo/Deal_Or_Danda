@@ -44,7 +44,7 @@ export const FounderPodium: React.FC<Props> = ({
 
       {/* Founder Character Illustration */}
       <div
-        className={`relative w-28 sm:w-36 h-36 sm:h-44 transition-all duration-300 ${
+        className={`relative w-16 sm:w-20 h-20 sm:h-24 transition-all duration-300 ${
           isPained ? 'animate-head-bonk' : 'animate-float-bob'
         }`}
       >
@@ -246,12 +246,12 @@ export const FounderPodium: React.FC<Props> = ({
       </div>
 
       {/* Modern Stage Pitch Podium */}
-      <div className="w-36 sm:w-44 bg-gradient-to-b from-slate-800 via-slate-900 to-black rounded-t-xl border-t-2 border-x-2 border-amber-400/60 p-2 text-center shadow-xl -mt-2 z-10">
-        <p className="text-[10px] uppercase tracking-wider text-amber-300 font-bold truncate">
-          Founder: {startup.name}
+      <div className="w-24 sm:w-28 bg-gradient-to-b from-slate-800 via-slate-900 to-black rounded-t-lg border-t border-x border-amber-400/60 py-0.5 sm:py-1 px-1.5 text-center shadow-lg -mt-1 z-10">
+        <p className="text-[9px] uppercase tracking-wider text-amber-300 font-bold truncate">
+          {startup.name}
         </p>
-        <div className="h-0.5 w-full bg-amber-400/40 my-1" />
-        <p className="text-[9px] text-slate-400 truncate">
+        <div className="h-0.5 w-full bg-amber-400/40 my-0.5" />
+        <p className="text-[8px] text-slate-400 truncate">
           {startup.industry}
         </p>
       </div>

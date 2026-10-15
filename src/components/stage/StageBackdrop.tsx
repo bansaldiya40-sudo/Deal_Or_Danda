@@ -21,95 +21,84 @@ export const StageBackdrop: React.FC<Props> = ({
 
   // Calculate pitch temperature
   const getPitchStatus = () => {
-    if (score >= 75) return { text: 'HIGH DEAL PROBABILITY 🔥', color: 'text-emerald-400 border-emerald-500' };
-    if (score >= 45) return { text: 'IN NEGOTIATION ZONE ⚖️', color: 'text-amber-400 border-amber-500' };
-    return { text: 'CRITICAL DANDA DANGER 🏏', color: 'text-red-500 border-red-500 animate-pulse' };
+    if (score >= 75) return { text: 'HIGH DEAL 🔥', color: 'text-emerald-400 border-emerald-500/60 bg-emerald-950/40' };
+    if (score >= 45) return { text: 'NEGOTIATION ⚖️', color: 'text-amber-400 border-amber-500/60 bg-amber-950/40' };
+    return { text: 'DANGER 🏏', color: 'text-red-400 border-red-500/60 bg-red-950/40 animate-pulse' };
   };
 
   const status = getPitchStatus();
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto mb-4 select-none">
-      {/* Studio Stage LED Jumbo Screen */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-slate-900 via-indigo-950/70 to-slate-950 border-2 border-indigo-500/30 p-3 sm:p-5 shadow-[0_0_40px_rgba(30,27,75,0.7)] backdrop-blur-md">
+    <div className="relative w-full max-w-5xl mx-auto mb-1 select-none">
+      {/* Studio Stage LED Compact HUD Screen */}
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-indigo-500/30 px-2.5 sm:px-3 py-1.5 shadow-[0_2px_15px_rgba(30,27,75,0.5)] backdrop-blur-md">
         {/* Subtle LED Scanline Effect */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,38,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] pointer-events-none opacity-40" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,38,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] pointer-events-none opacity-30" />
 
-        {/* Top Header Row */}
-        <div className="relative z-10 flex flex-wrap items-center justify-between border-b border-indigo-900/60 pb-2 mb-3 gap-2">
-          <div className="flex items-center space-x-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping" />
-            <span className="text-xs font-mono font-bold tracking-widest text-indigo-300 uppercase">
-              LIVE PITCH ROUND {Math.min(currentRound, totalRounds)} / {totalRounds}
-            </span>
-          </div>
-
-          {/* Danda Count Badge */}
-          <div className="flex items-center space-x-3 text-xs">
-            <div className="px-2.5 py-1 rounded-full bg-red-950/80 border border-red-500/60 text-red-300 font-bold flex items-center space-x-1">
-              <span>🏏 Danda Hits:</span>
-              <span className="text-white font-mono text-sm">{dandaCount}</span>
+        <div className="relative z-10 flex items-center justify-between gap-1.5 sm:gap-3 flex-wrap">
+          {/* Left: Round & Startup Key Metrics */}
+          <div className="flex items-center space-x-2 sm:space-x-3 text-xs">
+            {/* Live Round Badge */}
+            <div className="flex items-center space-x-1.5 px-2 py-0.5 rounded-md bg-indigo-950/90 border border-indigo-500/40 shrink-0">
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+              <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-wider text-indigo-200 uppercase">
+                ROUND {Math.min(currentRound, totalRounds)}/{totalRounds}
+              </span>
             </div>
 
-            <div className="px-2.5 py-1 rounded-full bg-amber-950/80 border border-amber-500/60 text-amber-300 font-bold flex items-center space-x-1">
-              <span>Pitch Score:</span>
-              <span className="text-white font-mono text-sm">{score}/100</span>
+            {/* The Ask */}
+            <div className="flex items-center space-x-1 text-[11px] sm:text-xs">
+              <span className="text-slate-400 text-[10px] sm:text-[11px]">Ask:</span>
+              <span className="font-bold text-amber-400 font-mono">{formatRupees(startup.askAmount)}</span>
+              <span className="text-slate-400 text-[10px]">({startup.askEquity}%)</span>
+            </div>
+
+            {/* Implied Valuation */}
+            <div className="hidden xs:flex items-center space-x-1 text-[11px] sm:text-xs">
+              <span className="text-slate-400 text-[10px] sm:text-[11px]">Valuation:</span>
+              <span className="font-bold text-cyan-400 font-mono">{formatRupees(postMoney)}</span>
+            </div>
+
+            {/* Monthly Sales */}
+            <div className="hidden md:flex items-center space-x-1 text-[11px] sm:text-xs">
+              <span className="text-slate-400 text-[10px] sm:text-[11px]">Sales:</span>
+              <span className="font-bold text-emerald-400 font-mono">{formatRupees(startup.monthlyRevenue)}/mo</span>
             </div>
           </div>
-        </div>
 
-        {/* Central Startup Numbers Display */}
-        <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-          {/* Ask Amount */}
-          <div className="p-2 sm:p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-            <p className="text-[10px] sm:text-xs text-slate-400 uppercase font-semibold">The Ask</p>
-            <p className="text-lg sm:text-2xl font-black text-amber-400">
-              {formatRupees(startup.askAmount)}
-            </p>
-            <p className="text-[10px] text-slate-400">for {startup.askEquity}% equity</p>
-          </div>
-
-          {/* Implied Valuation */}
-          <div className="p-2 sm:p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-            <p className="text-[10px] sm:text-xs text-slate-400 uppercase font-semibold">Valuation</p>
-            <p className="text-lg sm:text-2xl font-black text-cyan-400">
-              {formatRupees(postMoney)}
-            </p>
-            <p className="text-[10px] text-slate-400">Post-Money Value</p>
-          </div>
-
-          {/* Monthly Sales */}
-          <div className="p-2 sm:p-3 rounded-xl bg-slate-900/80 border border-slate-800">
-            <p className="text-[10px] sm:text-xs text-slate-400 uppercase font-semibold">Monthly Sales</p>
-            <p className="text-lg sm:text-2xl font-black text-emerald-400">
-              {formatRupees(startup.monthlyRevenue)}
-            </p>
-            <p className="text-[10px] text-slate-400">Runway: {formatRupees(startup.monthlyExpenses)}/mo</p>
-          </div>
-
-          {/* Live Heat Status */}
-          <div className="p-2 sm:p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex flex-col justify-center">
-            <p className="text-[10px] sm:text-xs text-slate-400 uppercase font-semibold">Tank Sentiment</p>
-            <p className={`text-xs sm:text-sm font-black ${status.color}`}>
+          {/* Right: Tank Sentiment + Dandas + Score */}
+          <div className="flex items-center space-x-1.5 sm:space-x-2 text-xs">
+            {/* Tank Sentiment Pill */}
+            <div className={`hidden sm:inline-flex items-center px-2 py-0.5 rounded-full border text-[10px] font-bold ${status.color}`}>
               {status.text}
-            </p>
+            </div>
+
+            {/* Danda Count */}
+            <div className="px-2 py-0.5 rounded-md bg-red-950/80 border border-red-500/50 text-red-300 font-bold flex items-center space-x-1 text-[10px] sm:text-[11px]">
+              <span>🏏</span>
+              <span className="text-white font-mono">{dandaCount}</span>
+            </div>
+
+            {/* Pitch Score */}
+            <div className="px-2 py-0.5 rounded-md bg-amber-950/80 border border-amber-500/50 text-amber-300 font-bold flex items-center space-x-1 text-[10px] sm:text-[11px]">
+              <span className="hidden xs:inline">Score:</span>
+              <span className="text-white font-mono font-black">{score}/100</span>
+            </div>
           </div>
         </div>
 
-        {/* Pitch Score Progress Bar */}
-        <div className="relative z-10 mt-3 pt-2">
-          <div className="w-full bg-slate-800/80 h-2 rounded-full overflow-hidden border border-slate-700">
-            <div
-              className={`h-full transition-all duration-500 rounded-full ${
-                score >= 70
-                  ? 'bg-gradient-to-r from-amber-400 to-emerald-400'
-                  : score >= 40
-                  ? 'bg-gradient-to-r from-amber-500 to-amber-300'
-                  : 'bg-gradient-to-r from-red-600 to-red-400'
-              }`}
-              style={{ width: `${Math.max(5, Math.min(100, score))}%` }}
-            />
-          </div>
+        {/* Integrated Bottom Micro Progress Bar */}
+        <div className="absolute bottom-0 inset-x-0 h-[2.5px] bg-slate-800/80">
+          <div
+            className={`h-full transition-all duration-500 ${
+              score >= 70
+                ? 'bg-gradient-to-r from-amber-400 to-emerald-400'
+                : score >= 40
+                ? 'bg-gradient-to-r from-amber-500 to-amber-300'
+                : 'bg-gradient-to-r from-red-600 to-red-400'
+            }`}
+            style={{ width: `${Math.max(5, Math.min(100, score))}%` }}
+          />
         </div>
       </div>
     </div>

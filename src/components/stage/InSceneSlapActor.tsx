@@ -76,7 +76,7 @@ export const InSceneSlapActor: React.FC<Props> = ({
       <div className="absolute -bottom-2 left-6 w-24 h-4 bg-black/40 rounded-full blur-sm" />
 
       {/* The Specific Investor Character Illustration */}
-      <div className="relative w-28 sm:w-36 h-36 sm:h-44 filter drop-shadow-xl">
+      <div className="relative w-16 sm:w-20 h-20 sm:h-24 filter drop-shadow-xl">
         {investorId === 'ashneer' && (
           <AshneerCharacter emotion="angry" isSpeaking={false} />
         )}

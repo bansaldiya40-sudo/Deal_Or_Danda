@@ -98,7 +98,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-amber-400 selection:text-black">
+    <div className="min-h-screen min-h-[100dvh] bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-amber-400 selection:text-black">
       {/* Persistent Navigation Header */}
       <Header
         onHowToPlayClick={() => setIsHowToPlayOpen(true)}

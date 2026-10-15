@@ -424,7 +424,7 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-3 sm:px-4 py-4 select-none">
+    <div className="max-w-5xl w-full mx-auto my-auto px-2 sm:px-4 py-1 sm:py-2 select-none">
       {/* Danda Slapstick Overlay */}
       <DandaOverlay
         isActive={showDandaModal}
@@ -437,7 +437,7 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
 
       {/* Stage Backdrop & Investor Desk & Founder with Screen Shake */}
       <div className={`relative transition-transform duration-100 ${isScreenShaking ? 'animate-screen-shake' : ''}`}>
-        {/* Stage Backdrop (Jumbo LED Screen) */}
+        {/* Stage Backdrop (Studio HUD Banner) */}
         <StageBackdrop
           startup={startup}
           score={score}
@@ -447,7 +447,7 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
         />
 
         {/* Four Animated Sharks behind the Desk */}
-        <div className="my-2 sm:my-4">
+        <div className="my-0.5 sm:my-1">
           <InvestorDesk
             activeAskerId={currentQuestion.askerId}
             speakingInvestorId={speakingSharkId}
@@ -461,7 +461,7 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
         </div>
 
         {/* Founder Podium & In-Scene Slap Actor */}
-        <div className="relative flex justify-center items-end -mt-4 mb-4">
+        <div className="relative flex justify-center items-end -mt-3 sm:-mt-4 mb-1 sm:mb-1.5">
           <InSceneSlapActor
             isActive={isSlapAnimating}
             investorId={advancingSharkId || 'ashneer'}
@@ -476,77 +476,77 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
         </div>
       </div>
 
-      {/* Large Dramatic Doglapan Contradiction Alert Stamp */}
+      {/* Dramatic Doglapan Contradiction Alert Stamp */}
       {doglapanAlert && (
-        <div className="mb-6 p-5 rounded-2xl bg-gradient-to-r from-red-950/95 via-rose-950/90 to-red-950/95 border-2 border-red-500 shadow-[0_0_35px_rgba(239,68,68,0.35)] animate-stamp-zoom text-slate-100 relative overflow-hidden">
+        <div className="mb-2 sm:mb-3 p-3 sm:p-4 rounded-xl bg-gradient-to-r from-red-950/95 via-rose-950/90 to-red-950/95 border-2 border-red-500 shadow-[0_0_25px_rgba(239,68,68,0.35)] animate-stamp-zoom text-slate-100 relative overflow-hidden">
           {/* Subtle diagonal caution lines */}
           <div className="absolute inset-0 opacity-10 bg-[repeating-linear-gradient(45deg,#000,#000_15px,#ef4444_15px,#ef4444_30px)] pointer-events-none" />
 
           <div className="relative z-10">
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-red-500/30 pb-2 mb-3">
-              <div className="flex items-center space-x-2 text-yellow-300 font-black text-sm uppercase tracking-wider">
-                <ShieldAlert size={22} className="text-red-400 animate-bounce" />
-                <span className="text-red-400 font-mono">CONTRADICTION DETECTED (-15 PTS)</span>
+            <div className="flex flex-wrap items-center justify-between gap-1.5 border-b border-red-500/30 pb-1.5 mb-2">
+              <div className="flex items-center space-x-1.5 text-yellow-300 font-black text-xs uppercase tracking-wider">
+                <ShieldAlert size={18} className="text-red-400 animate-bounce" />
+                <span className="text-red-400 font-mono text-[11px] sm:text-xs">CONTRADICTION DETECTED (-15 PTS)</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <span className="px-3 py-1 bg-red-600 text-white font-black text-xs uppercase tracking-widest rounded-full shadow-lg transform rotate-1 border border-yellow-300">
+              <div className="flex items-center space-x-1.5">
+                <span className="px-2.5 py-0.5 bg-red-600 text-white font-black text-[10px] uppercase tracking-widest rounded-full shadow border border-yellow-300">
                   💥 DOGLAPAN! 💥
                 </span>
                 <button
                   onClick={() => sound.speakDoglapan()}
-                  className="p-1.5 rounded-lg bg-red-800 hover:bg-red-700 text-white transition-all shadow cursor-pointer"
+                  className="p-1 rounded bg-red-800 hover:bg-red-700 text-white transition-all shadow cursor-pointer"
                   title="Play Doglapan"
                 >
-                  <Volume2 size={14} />
+                  <Volume2 size={12} />
                 </button>
               </div>
             </div>
 
-            <div className="flex items-start space-x-3">
-              <div className="w-10 h-10 rounded-full bg-red-800 border-2 border-amber-400 flex items-center justify-center shrink-0 font-black text-sm text-amber-300">
+            <div className="flex items-start space-x-2.5">
+              <div className="w-8 h-8 rounded-full bg-red-800 border-2 border-amber-400 flex items-center justify-center shrink-0 font-black text-xs text-amber-300">
                 CG
               </div>
               <div>
-                <p className="text-base sm:text-lg font-black text-amber-200 leading-snug">
+                <p className="text-sm sm:text-base font-black text-amber-200 leading-snug">
                   "{doglapanAlert.quote}"
                 </p>
-                <p className="text-xs text-red-300 mt-0.5 font-medium">
+                <p className="text-[10px] text-red-300 mt-0.5 font-medium">
                   — Cashneer Grover calls out founder inconsistency!
                 </p>
               </div>
             </div>
 
-            <div className="mt-3.5 p-3 rounded-xl bg-black/70 border border-red-800 text-xs text-slate-300 grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="p-2 rounded-lg bg-red-950/40 border border-red-900/50">
-                <span className="text-slate-400 font-mono text-[11px] block">Earlier Claim in Round {doglapanAlert.earlierRound}:</span>
-                <p className="font-bold text-emerald-400 mt-1">"{doglapanAlert.earlierStatement}"</p>
+            <div className="mt-2 p-2 rounded-lg bg-black/70 border border-red-800 text-[11px] text-slate-300 grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="p-1.5 rounded bg-red-950/40 border border-red-900/50">
+                <span className="text-slate-400 font-mono text-[10px] block">Earlier Claim (Round {doglapanAlert.earlierRound}):</span>
+                <p className="font-bold text-emerald-400 mt-0.5 text-[11px]">"{doglapanAlert.earlierStatement}"</p>
               </div>
-              <div className="p-2 rounded-lg bg-red-950/40 border border-red-900/50">
-                <span className="text-slate-400 font-mono text-[11px] block">Current Contradicted Statement:</span>
-                <p className="font-bold text-rose-400 mt-1">"{doglapanAlert.currentStatement}"</p>
+              <div className="p-1.5 rounded bg-red-950/40 border border-red-900/50">
+                <span className="text-slate-400 font-mono text-[10px] block">Current Contradicted Statement:</span>
+                <p className="font-bold text-rose-400 mt-0.5 text-[11px]">"{doglapanAlert.currentStatement}"</p>
               </div>
             </div>
 
             {/* Founder Clarification Defense */}
             {!doglapanClarified && doglapanAlert.clarificationOptions && doglapanAlert.clarificationOptions.length > 0 && (
-              <div className="mt-4 p-3.5 rounded-xl bg-slate-950/80 border border-yellow-400/50">
-                <p className="text-xs font-bold text-amber-300 uppercase tracking-wider mb-2 flex items-center space-x-1.5">
-                  <Zap size={14} className="text-yellow-400 animate-pulse" />
+              <div className="mt-2.5 p-2.5 rounded-lg bg-slate-950/80 border border-yellow-400/50">
+                <p className="text-[11px] font-bold text-amber-300 uppercase tracking-wider mb-1.5 flex items-center space-x-1">
+                  <Zap size={13} className="text-yellow-400 animate-pulse" />
                   <span>Founder Defense: Choose How to Explain the Contradiction!</span>
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {doglapanAlert.clarificationOptions.map((opt) => (
                     <button
                       key={opt.id}
                       type="button"
                       onClick={() => handleClarifyContradiction(opt)}
-                      className="p-3 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-amber-400 text-left transition-all cursor-pointer group"
+                      className="p-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 hover:border-amber-400 text-left transition-all cursor-pointer group"
                     >
-                      <p className="text-xs font-semibold text-slate-200 group-hover:text-amber-300">
+                      <p className="text-[11px] font-semibold text-slate-200 group-hover:text-amber-300 leading-snug">
                         "{opt.text}"
                       </p>
                       <span
-                        className={`inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                        className={`inline-block mt-0.5 text-[9px] font-bold px-1.5 py-0.2 rounded-full ${
                           opt.isHonest
                             ? 'bg-emerald-950 text-emerald-400 border border-emerald-500'
                             : 'bg-red-950 text-red-400 border border-red-500'
@@ -563,44 +563,44 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
         </div>
       )}
 
-      {/* Main Pitch & Cross-Questioning Interrogation Panel with 3D Question Card Transition */}
+      {/* Main Pitch & Cross-Questioning Interrogation Panel */}
       <div
         key={`question-card-${currentRoundIndex}`}
-        className="relative z-20 bg-slate-900/95 border-2 border-indigo-500/40 rounded-2xl p-4 sm:p-6 shadow-2xl backdrop-blur-md animate-3d-card-transition"
+        className="relative z-20 bg-slate-900/95 border border-indigo-500/40 rounded-xl p-2.5 sm:p-3.5 shadow-xl backdrop-blur-md animate-3d-card-transition"
       >
         {/* Asker & Voiced Question Header */}
-        <div className="mb-4">
+        <div className="mb-2 sm:mb-2.5">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+            <div className="flex items-center space-x-1.5 text-[11px] font-bold text-amber-400 uppercase tracking-wider mb-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
               <span>{asker.name} is questioning:</span>
             </div>
             <button
               onClick={() => handleReplayVoice(currentQuestion.askerId)}
-              className="p-1.5 rounded-lg bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-amber-300 transition-colors cursor-pointer"
+              className="p-1 rounded-md bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-amber-300 transition-colors cursor-pointer"
               title="Hear question"
             >
-              <Volume2 size={13} />
+              <Volume2 size={12} />
             </button>
           </div>
 
-          <h3 className="text-base sm:text-xl font-black text-white leading-snug">
+          <h3 className="text-sm sm:text-base md:text-lg font-black text-white leading-snug">
             "{currentQuestion.hinglishText}"
           </h3>
-          <p className="text-xs text-slate-400 mt-1 italic">
+          <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5 italic">
             English Translation: "{currentQuestion.questionText}"
           </p>
-          <p className="text-[11px] text-amber-300/80 mt-1 font-mono">
+          <p className="text-[10px] sm:text-[11px] text-amber-300/80 mt-0.5 font-mono">
             💡 Shark Context: {currentQuestion.contextHint}
           </p>
         </div>
 
-        {/* Phase 1: Multiple Choice or Custom Input */}
+        {/* Phase 1: Multiple Choice (2x2 Grid on Desktop) or Custom Input */}
         {!isAnswerSubmitted && (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {!isCustomMode ? (
               <>
-                <div className="grid grid-cols-1 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
                   {currentQuestion.answers.map((ans: PitchAnswer, idx: number) => {
                     const isSelected = selectedAnswer?.id === ans.id;
                     return (
@@ -608,14 +608,14 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
                         key={ans.id}
                         type="button"
                         onClick={() => handleSelectAnswer(ans)}
-                        className={`w-full text-left p-3.5 rounded-xl border transition-all cursor-pointer flex items-start space-x-3 ${
+                        className={`w-full text-left p-2 sm:p-2.5 rounded-lg border transition-all cursor-pointer flex items-start space-x-2 sm:space-x-2.5 ${
                           isSelected
-                            ? 'bg-amber-500/20 border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.25)] scale-[1.01]'
+                            ? 'bg-amber-500/20 border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.25)] ring-1 ring-amber-400 scale-[1.01]'
                             : 'bg-slate-800/80 hover:bg-slate-800 border-slate-700 hover:border-slate-500'
                         }`}
                       >
                         <span
-                          className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${
+                          className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5 ${
                             isSelected
                               ? 'bg-amber-400 text-slate-950'
                               : 'bg-slate-700 text-slate-300'
@@ -623,7 +623,7 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
                         >
                           {String.fromCharCode(65 + idx)}
                         </span>
-                        <span className="text-xs sm:text-sm text-slate-100 font-medium leading-relaxed">
+                        <span className="text-xs sm:text-[13px] text-slate-100 font-medium leading-snug">
                           {ans.text}
                         </span>
                       </button>
@@ -631,11 +631,11 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
                   })}
                 </div>
 
-                <div className="flex items-center justify-between pt-2">
+                <div className="flex items-center justify-between pt-1.5 sm:pt-2">
                   <button
                     type="button"
                     onClick={() => setIsCustomMode(true)}
-                    className="text-xs text-slate-400 hover:text-amber-400 underline transition-colors cursor-pointer"
+                    className="text-[11px] text-slate-400 hover:text-amber-400 underline transition-colors cursor-pointer"
                   >
                     ✏️ Or type your own custom pitch answer...
                   </button>
@@ -644,7 +644,7 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
                     type="button"
                     disabled={!selectedAnswer || isSlapAnimating}
                     onClick={handleSubmitAnswer}
-                    className={`px-6 py-2.5 rounded-xl font-black text-sm tracking-wide uppercase transition-all shadow-lg cursor-pointer ${
+                    className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-lg font-black text-xs sm:text-sm tracking-wide uppercase transition-all shadow-md cursor-pointer ${
                       selectedAnswer && !isSlapAnimating
                         ? 'bg-gradient-to-r from-amber-500 to-red-500 text-slate-950 hover:scale-105 active:scale-95'
                         : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
@@ -655,13 +655,13 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
                 </div>
               </>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <textarea
-                  rows={3}
+                  rows={2}
                   value={customAnswerText}
                   onChange={(e) => setCustomAnswerText(e.target.value)}
                   placeholder="Defend your startup in your own words (include numbers, repeat rates, or margins for best results)..."
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-amber-400/60 focus:border-amber-400 focus:outline-none text-slate-100 text-sm"
+                  className="w-full px-3 py-1.5 rounded-lg bg-slate-800 border border-amber-400/60 focus:border-amber-400 focus:outline-none text-slate-100 text-xs sm:text-sm"
                 />
 
                 <div className="flex items-center justify-between">
@@ -677,7 +677,7 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
                     type="button"
                     disabled={!customAnswerText.trim() || isSlapAnimating}
                     onClick={handleSubmitAnswer}
-                    className={`px-6 py-2.5 rounded-xl font-black text-sm uppercase tracking-wide cursor-pointer transition-all ${
+                    className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-lg font-black text-xs sm:text-sm uppercase tracking-wide cursor-pointer transition-all ${
                       customAnswerText.trim() && !isSlapAnimating
                         ? 'bg-gradient-to-r from-amber-500 to-red-500 text-slate-950 hover:scale-105 active:scale-95'
                         : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
@@ -693,10 +693,10 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
 
         {/* Phase 2: Interactive Follow-Up Cross-Questioning */}
         {isAnswerSubmitted && activeFollowUp && !followUpResolved && (
-          <div className="my-4 p-4 rounded-xl bg-indigo-950/80 border-2 border-amber-400 shadow-xl animate-fade-in">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center space-x-2 text-xs font-bold text-amber-300 uppercase">
-                <Zap size={15} className="text-yellow-400" />
+          <div className="my-2 p-2.5 sm:p-3 rounded-xl bg-indigo-950/80 border border-amber-400 shadow-xl animate-fade-in">
+            <div className="flex items-center justify-between mb-1.5">
+              <div className="flex items-center space-x-1.5 text-xs font-bold text-amber-300 uppercase">
+                <Zap size={14} className="text-yellow-400" />
                 <span>Shark Cross-Examination Challenge:</span>
               </div>
               <button
@@ -704,28 +704,28 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
                 className="p-1 rounded bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-amber-300 transition-colors cursor-pointer"
                 title="Hear challenge"
               >
-                <Volume2 size={12} />
+                <Volume2 size={11} />
               </button>
             </div>
 
-            <p className="text-sm sm:text-base font-bold text-white mb-1">
+            <p className="text-xs sm:text-sm font-bold text-white mb-0.5">
               "{activeFollowUp.hinglishText}"
             </p>
-            <p className="text-xs text-slate-400 italic mb-3">
+            <p className="text-[10px] sm:text-[11px] text-slate-400 italic mb-2">
               Context: {activeFollowUp.interruptionContext}
             </p>
 
-            <p className="text-xs font-semibold text-amber-300/90 mb-2">
+            <p className="text-[11px] font-semibold text-amber-300/90 mb-1.5">
               Defend your numbers and convince the shark:
             </p>
 
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {activeFollowUp.responses.map((resp) => (
                 <button
                   key={resp.id}
                   type="button"
                   onClick={() => handleSelectFollowUpResponse(resp)}
-                  className="w-full text-left p-3 rounded-lg bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-amber-400 text-xs sm:text-sm text-slate-200 transition-all cursor-pointer"
+                  className="w-full text-left p-2 rounded-lg bg-slate-800 hover:bg-slate-750 border border-slate-700 hover:border-amber-400 text-xs text-slate-200 transition-all cursor-pointer"
                 >
                   {resp.text}
                 </button>
@@ -736,9 +736,9 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
 
         {/* Phase 3: Post-Answer Feedback & Reaction Grid */}
         {isAnswerSubmitted && followUpResolved && (
-          <div className="space-y-4 animate-fade-in">
+          <div className="space-y-2 sm:space-y-3 animate-fade-in">
             <div
-              className={`p-4 rounded-xl border ${
+              className={`p-2.5 sm:p-3 rounded-lg border ${
                 selectedAnswer?.quality === 'great'
                   ? 'bg-emerald-950/40 border-emerald-500 text-emerald-200'
                   : selectedAnswer?.quality === 'good'
@@ -748,28 +748,28 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
                   : 'bg-red-950/60 border-red-500 text-red-200'
               }`}
             >
-              <div className="flex items-center space-x-2 font-black text-sm uppercase mb-1">
+              <div className="flex items-center space-x-1.5 font-black text-xs sm:text-sm uppercase mb-0.5">
                 {selectedAnswer?.quality === 'great' && (
                   <>
-                    <CheckCircle2 size={18} className="text-emerald-400" />
+                    <CheckCircle2 size={16} className="text-emerald-400" />
                     <span>Pitch Masterclass (+25 Points)</span>
                   </>
                 )}
                 {selectedAnswer?.quality === 'good' && (
                   <>
-                    <CheckCircle2 size={18} className="text-cyan-400" />
+                    <CheckCircle2 size={16} className="text-cyan-400" />
                     <span>Solid Answer (+15 Points)</span>
                   </>
                 )}
                 {selectedAnswer?.quality === 'mediocre' && (
                   <>
-                    <HelpCircle size={18} className="text-amber-400" />
+                    <HelpCircle size={16} className="text-amber-400" />
                     <span>Skeptical Sharks (+4 Points)</span>
                   </>
                 )}
                 {selectedAnswer?.quality === 'blunder' && (
                   <>
-                    <AlertOctagon size={18} className="text-red-500" />
+                    <AlertOctagon size={16} className="text-red-500" />
                     <span>DANDA HIT! (-15 Points)</span>
                   </>
                 )}
@@ -778,16 +778,16 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
             </div>
 
             {/* Individual Shark Reactions Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
               {INVESTORS.map((inv) => {
                 const quote = investorQuotes[inv.id];
                 return (
                   <div
                     key={inv.id}
-                    className="p-2.5 rounded-xl bg-slate-800/60 border border-slate-700 text-xs"
+                    className="p-1.5 sm:p-2 rounded-lg bg-slate-800/60 border border-slate-700 text-xs"
                   >
-                    <p className="font-bold text-amber-300 text-[11px] truncate">{inv.name}:</p>
-                    <p className="text-[11px] text-slate-300 italic mt-0.5 line-clamp-3">
+                    <p className="font-bold text-amber-300 text-[10px] sm:text-[11px] truncate">{inv.name}:</p>
+                    <p className="text-[10px] sm:text-[11px] text-slate-300 italic mt-0.5 line-clamp-2">
                       "{quote || 'Observing closely...'}"
                     </p>
                   </div>
@@ -796,18 +796,18 @@ export const PitchScreen: React.FC<Props> = ({ startup, questions, onFinishPitch
             </div>
 
             {/* Next Round CTA */}
-            <div className="flex justify-end pt-2">
+            <div className="flex justify-end pt-1 sm:pt-1.5">
               <button
                 type="button"
                 onClick={handleNextRound}
-                className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-sm uppercase tracking-wide shadow-lg flex items-center space-x-2 cursor-pointer transition-transform hover:scale-105 active:scale-95"
+                className="px-4 sm:px-5 py-2 rounded-lg bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wide shadow-md flex items-center space-x-1.5 cursor-pointer transition-transform hover:scale-105 active:scale-95"
               >
                 <span>
-                  {currentRoundIndex + 1 < PITCH_QUESTIONS.length
+                  {currentRoundIndex + 1 < activeQuestions.length
                     ? 'Next Shark Question'
                     : 'Proceed to Negotiation Room 🤝'}
                 </span>
-                <ArrowRight size={18} />
+                <ArrowRight size={16} />
               </button>
             </div>
           </div>
