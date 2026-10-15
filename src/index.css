@@ -1,0 +1,210 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply bg-slate-950 text-slate-100 font-sans min-h-screen overflow-x-hidden selection:bg-amber-400 selection:text-black;
+  }
+}
+
+/* Custom animations & keyframes for Deal or Danda */
+@keyframes dandaSwing {
+  0% {
+    transform: rotate(-100deg) translateY(-250px) scale(0.6);
+    opacity: 0;
+  }
+  50% {
+    transform: rotate(15deg) translateY(0px) scale(1.15);
+    opacity: 1;
+  }
+  70% {
+    transform: rotate(-10deg) translateY(-20px) scale(1);
+  }
+  100% {
+    transform: rotate(0deg) translateY(0px) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes headBonk {
+  0% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(22px) rotate(8deg); }
+  50% { transform: translateY(-8px) rotate(-6deg); }
+  75% { transform: translateY(4px) rotate(3deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes starSpin {
+  0% { transform: rotate(0deg) scale(0.8); }
+  50% { transform: rotate(180deg) scale(1.2); }
+  100% { transform: rotate(360deg) scale(0.8); }
+}
+
+@keyframes stampZoom {
+  0% { transform: scale(3) rotate(-25deg); opacity: 0; }
+  60% { transform: scale(0.9) rotate(-12deg); opacity: 1; }
+  80% { transform: scale(1.05) rotate(-10deg); }
+  100% { transform: scale(1) rotate(-10deg); opacity: 1; }
+}
+
+@keyframes floatBob {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.4)); }
+  50% { filter: drop-shadow(0 0 25px rgba(245, 158, 11, 0.8)); }
+}
+
+.animate-danda-swing {
+  animation: dandaSwing 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.animate-head-bonk {
+  animation: headBonk 0.65s ease-out forwards;
+}
+
+.animate-star-spin {
+  animation: starSpin 2s linear infinite;
+}
+
+.animate-stamp-zoom {
+  animation: stampZoom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.animate-float-bob {
+  animation: floatBob 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes eyeBlink {
+  0%, 44%, 56%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.1);
+  }
+}
+
+.animate-\[blink_4s_infinite\],
+.animate-\[blink_3\.8s_infinite\],
+.animate-\[blink_4\.2s_infinite\],
+.animate-\[blink_4\.5s_infinite\] {
+  transform-origin: center;
+  animation: eyeBlink 4s ease-in-out infinite;
+}
+
+@keyframes screenShake {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-5px, 2px) rotate(-0.6deg); }
+  40% { transform: translate(5px, -2px) rotate(0.6deg); }
+  60% { transform: translate(-3px, 1px) rotate(-0.3deg); }
+  80% { transform: translate(3px, -1px) rotate(0.3deg); }
+}
+
+@keyframes slapRecoil {
+  0% { transform: rotate(0deg) translate(0, 0); }
+  20% { transform: rotate(-22deg) translate(-15px, 5px); }
+  45% { transform: rotate(6deg) translate(4px, -2px); }
+  70% { transform: rotate(-6deg) translate(-3px, 1px); }
+  100% { transform: rotate(-16deg) translate(-8px, 3px); }
+}
+
+.animate-screen-shake {
+  animation: screenShake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.animate-slap-recoil {
+  animation: slapRecoil 0.65s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-screen-shake,
+  .animate-slap-recoil,
+  .animate-3d-danda-spin,
+  .animate-3d-coin-rotate,
+  .animate-3d-card-transition,
+  .animate-3d-logo {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Tasteful 3D Cartoon Enhancements (Lightweight CSS 3D Transforms) */
+@keyframes danda3DSpin {
+  0% {
+    transform: perspective(800px) rotateY(-720deg) rotateZ(-40deg) translateY(-250px) scale(0.3);
+    opacity: 0;
+  }
+  65% {
+    transform: perspective(800px) rotateY(15deg) rotateZ(8deg) translateY(0px) scale(1.12);
+    opacity: 1;
+  }
+  80% {
+    transform: perspective(800px) rotateY(-8deg) rotateZ(-4deg) translateY(-8px) scale(0.98);
+  }
+  100% {
+    transform: perspective(800px) rotateY(0deg) rotateZ(0deg) translateY(0px) scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-3d-danda-spin {
+  animation: danda3DSpin 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes coin3DRotate {
+  0% {
+    transform: perspective(600px) rotateY(0deg) scale(0.4) translateY(30px);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  70% {
+    transform: perspective(600px) rotateY(720deg) scale(1.1) translateY(-15px);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(600px) rotateY(1080deg) scale(1) translateY(0px);
+    opacity: 1;
+  }
+}
+
+.animate-3d-coin-rotate {
+  animation: coin3DRotate 0.9s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes card3DFlip {
+  0% {
+    transform: perspective(1000px) rotateX(14deg) scale(0.98);
+    opacity: 0.4;
+  }
+  100% {
+    transform: perspective(1000px) rotateX(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-3d-card-transition {
+  animation: card3DFlip 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes logo3DEntrance {
+  0% {
+    transform: perspective(500px) rotateX(-15deg) scale(0.94);
+  }
+  100% {
+    transform: perspective(500px) rotateX(0deg) scale(1);
+  }
+}
+
+.animate-3d-logo {
+  animation: logo3DEntrance 0.5s ease-out forwards;
+}
+
+
+
